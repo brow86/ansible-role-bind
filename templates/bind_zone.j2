@@ -58,8 +58,9 @@ $TTL {{ _zone_data['ttl'] }}
 
 {% if _zone_data['mname']|length > 0 %}
 {% for ns in _zone_data['mname'] %}
-                     IN  NS     {{ ns }}{% if not ns|regex_search('\.$') %}.{{ _zone_data['domain'] }}.{% endif %}
-
+{% if ns is defined %}
+                     IN  NS     {{ ns }}.
+{% endif %}
 {% endfor %}
 {% else %}
                      IN  NS     {{ ansible_hostname }}.{{ _zone_data['domain'] }}.
